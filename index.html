@@ -21,7 +21,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
 <!-- 5. (可选) 设置应用在主屏幕上显示的标题 -->
-<meta name="apple-mobile-web-app-title" content="EPhone（星月舱）">
+<meta name="apple-mobile-web-app-title" content="EPhone（星月舱版）">
 
 <!-- 6. (兼容) 为部分安卓浏览器提供支持 -->
 <meta name="mobile-web-app-capable" content="yes">
@@ -31,7 +31,7 @@
 <!-- ▲▲▲ 替换结束 ▲▲▲ -->
 
 
-    <title>EPhone（星月舱）</title>
+    <title>EPhone（星月舱版）</title>
 
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
@@ -103,20 +103,20 @@
 <!-- ▲▲▲ 替换结束 ▲▲▲ -->
 
                     <div class="profile-info">
-                        <p id="profile-username" class="editable-text">星月宇宙</p>
+                        <p id="profile-username" class="editable-text">星月世界</p>
                         <p id="profile-sub-username" class="editable-text">@77&Ethan</p>
-                        <p id="profile-bio" class="editable-text">点击这里编辑你的个性签名</p>
+                        <p id="profile-bio" class="editable-text">你在我怀里，就已经是世界最温暖的地方了🌙💫</p>
                         <p id="profile-location" class="editable-text" data-placeholder="星月舱"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg><span>星月舱</span></p>
                     </div>
                 </div>
                 <div id="desktop-layout">
                     <div id="desktop-widget-column">
                         <div class="custom-widget-container">
-                            <div id="widget-bubble-1" class="widget-bubble editable-text" contenteditable="true">点击编辑文字</div>
+                            <div id="widget-bubble-1" class="widget-bubble editable-text" contenteditable="true">星月交辉</div>
                             <div class="widget-circle-uploader">
                                 <img id="widget-image-1" src="https://i.postimg.cc/qRqpK5kP/anime-avatar.jpg" class="editable-image" title="点击更换图片">
                             </div>
-                            <div id="widget-subtext-1" class="widget-subtext editable-text" contenteditable="true">点击编辑文字</div>
+                            <div id="widget-subtext-1" class="widget-subtext editable-text" contenteditable="true">星月同辉</div>
                         </div>
                         <div class="custom-widget-container">
                             <div id="widget-bubble-2" class="widget-bubble editable-text" contenteditable="true">点击编辑文字</div>
@@ -127,7 +127,7 @@
                         </div>
                     </div>
                     <div id="desktop-app-container">
-                        <div class="desktop-app-icon" onclick="showScreen('chat-list-screen')"><div class="icon-bg-desktop"><img id="icon-img-qq" src="https://i.postimg.cc/MTC3Tkw8/IMG-6436.jpg" alt="QQ"></div><span class="label">QQ</span></div>
+                        <div class="desktop-app-icon" onclick="showScreen('chat-list-screen')"><div class="icon-bg-desktop"><img id="icon-img-qq" src="https://i.postimg.cc/MTC3Tkw8/IMG-6436.jpg" alt="微信"></div><span class="label">QQ</span></div>
                         <div class="desktop-app-icon" onclick="showScreen('world-book-screen')"><div class="icon-bg-desktop"><img id="icon-img-world-book" src="https://i.postimg.cc/HWf1JKzn/IMG-6435.jpg" alt="世界书"></div><span class="label">世界书</span></div>
                         <div id="check-phone-btn" class="desktop-app-icon">
                             <div class="icon-bg-desktop"><img id="icon-img-check-phone" src="https://i.postimg.cc/RVwpwr0r/IMG-8348.jpg" alt="查手机"></div>
@@ -8825,27 +8825,28 @@ async function loadAllFontPresetsOnStartup() {
     }
 }
 
+// ▼▼▼ 请用这整块【已彻底修复】的代码，完整替换掉你旧的 renderFontPresets 函数 ▼▼▼
 /**
- * 【已修改】渲染字体预设的10个卡槽
+ * 【已彻底修复】渲染字体预设的10个卡槽
  */
 async function renderFontPresets() {
     const container = document.getElementById('font-preset-container');
     container.innerHTML = ''; // 清空旧内容
 
-    // 从数据库读取所有已保存的预设
-    const presets = await db.fontPresets.toArray();
+    // 1. 从数据库读取所有已保存的预设，并确保它是一个数组
+    const presets = await db.fontPresets.toArray() || [];
 
-    // ▼▼▼ 核心修改在这里！▼▼▼
-    // 循环10次，创建10个卡槽的HTML
+    // 2. ★★★【这是本次修复的核心】★★★
+    // 我们不再依赖 presets 的长度来循环，而是无条件地循环10次，创建10个卡槽。
     for (let i = 0; i < 10; i++) {
-    // ▲▲▲ 修改结束 ▲▲▲
         const slot = document.createElement('div');
         slot.className = 'font-preset-slot';
         
+        // 3. 在循环内部，再判断当前索引 i 是否在已保存的 presets 数组中有对应的数据。
         const preset = presets[i];
 
         if (preset) {
-            // 如果这个卡槽有数据
+            // 如果这个卡槽有数据，就渲染成“已填充”的样式
             slot.innerHTML = `
                 <div class="font-preview-text" data-preset-id="${preset.id}">Abc 你好</div>
                 <div class="font-preset-info">名称: ${preset.name}</div>
@@ -8855,7 +8856,7 @@ async function renderFontPresets() {
                 </div>
             `;
         } else {
-            // 如果这个卡槽是空的
+            // 如果这个卡槽在数据库中没有对应的数据，就渲染成“空卡槽”的样式
             slot.classList.add('empty');
             slot.innerHTML = `
                 <div class="font-preset-info">卡槽 ${i + 1} 为空</div>
@@ -8865,9 +8866,11 @@ async function renderFontPresets() {
                 </div>
             `;
         }
+        // 4. 将创建好的卡槽（无论空的还是满的）添加到容器中
         container.appendChild(slot);
     }
     
+    // 5. 预览字体和绑定事件的逻辑保持不变
     presets.forEach(preset => {
         if (preset) {
             loadFontForPreview(preset);
@@ -8876,6 +8879,7 @@ async function renderFontPresets() {
 
     addFontPresetButtonListeners();
 }
+// ▲▲▲ 替换结束 ▲▲▲
 
 
 /**
@@ -8971,24 +8975,18 @@ function handleUploadFontLocal(slotIndex) {
         reader.readAsDataURL(file);
     };
     input.click(); // 触发文件选择框
-}
-
-
-/**
- * 将新的字体预设保存到数据库
- * @param {number} slotIndex - 卡槽索引
- * @param {string} name - 字体名称
- * @param {string} url - 字体URL (网络或Base64)
- */
-// ▼▼▼ 用下面这整块代码，替换掉你旧的 saveFontPreset 函数 ▼▼▼
+} 
 async function saveFontPreset(slotIndex, name, url) {
     try {
         const presets = await db.fontPresets.toArray();
         const newPreset = { id: 'font_' + Date.now(), name, url };
         presets.splice(slotIndex, 0, newPreset);
-        const presetsToSave = presets.slice(0, 5);
+        
+        // ▼▼▼ 核心修改点在这里！ ▼▼▼
+        // 将 slice(0, 5) 修改为 slice(0, 10)
+        const presetsToSave = presets.slice(0, 10); 
+        // ▲▲▲ 修改结束 ▲▲▲
 
-        // 【核心修改】使用数据库事务来保证操作的原子性
         await db.transaction('rw', db.fontPresets, async () => {
             await db.fontPresets.clear();
             await db.fontPresets.bulkPut(presetsToSave);
@@ -8997,14 +8995,11 @@ async function saveFontPreset(slotIndex, name, url) {
         await renderFontPresets();
         alert(`字体 "${name}" 已成功保存到卡槽 ${slotIndex + 1}！`);
     } catch (error) {
-        // 【核心修改】如果出错，会在这里捕获，并告知用户数据是安全的
         console.error("保存字体预设失败:", error);
         alert(`保存字体失败，数据已自动回滚，你之前的字体数据是安全的。错误: ${error.message}`);
-        await renderFontPresets(); // 失败后重新渲染，恢复到旧的列表状态
+        await renderFontPresets(); 
     }
 }
-// ▲▲▲ 替换结束 ▲▲▲
-
 
 /**
  * 删除一个字体预设
